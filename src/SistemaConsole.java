@@ -9,17 +9,12 @@
 
 import java.util.Scanner;
 
-class Product {
-    String name;
-    double price;
-    int quantity;
-}
-
 public class SistemaConsole {
-    public static int quantClients = 10;
     public static double moneyInCashier = 0;
-    public static String clients[] = new String[quantClients];
-    public static Product products[] = new Product[10];
+    public static String clients[] = new String[10];
+    public static String productsName[] = new String[10];
+    public static double productsPrice[] = new double[10];
+    public static int productsQuantity[] = new int[10];
 
     static Scanner scan = new Scanner(System.in);
 
@@ -28,30 +23,29 @@ public class SistemaConsole {
     }
 
     public static void loadDefaultProductsAndClients() {
-        for (int i = 0; i < products.length; i++) {
-            products[i] = new Product();
-            products[i].name = "";
-            clients[i] = "";
+        for (int i = 0; i < productsName.length; i++) {
+            productsName[i] = new String("");
+            clients[i] = new String("");
         }
         clients[0] = "Pedro";
         clients[1] = "Lucas";
         clients[2] = "João";
         clients[3] = "Tharlis";
-        products[0].name = "Feijão";
-        products[1].name = "Arroz";
-        products[2].name = "Macarrão";
-        products[3].name = "Tapioca";
-        products[4].name = "Banana";
-        products[0].price = 5.7;
-        products[1].price = 3.4;
-        products[2].price = 7.34;
-        products[3].price = 15.99;
-        products[4].price = 7.89;
-        products[0].quantity = 7;
-        products[1].quantity = 8;
-        products[2].quantity = 20;
-        products[3].quantity = 12;
-        products[4].quantity = 5;
+        productsName[0] = "Feijão";
+        productsName[1] = "Arroz";
+        productsName[2] = "Macarrão";
+        productsName[3] = "Tapioca";
+        productsName[4] = "Banana";
+        productsPrice[0] = 5.7;
+        productsPrice[1] = 3.4;
+        productsPrice[2] = 7.34;
+        productsPrice[3] = 15.99;
+        productsPrice[4] = 7.89;
+        productsQuantity[0] = 7;
+        productsQuantity[1] = 8;
+        productsQuantity[2] = 20;
+        productsQuantity[3] = 12;
+        productsQuantity[4] = 5;
         menu();
     }
 
@@ -108,8 +102,8 @@ public class SistemaConsole {
     private static void showProduct() {
         int option;
         System.out.print("\n");
-        for (int i = 0; i < products.length; i++) {
-            if (!products[i].name.equals("")) System.out.println((i + 1) + ": " + products[i].name + "\nPreço unitário: R$" + products[i].price + " | Quantidade: " + products[i].quantity + "\n");
+        for (int i = 0; i < productsName.length; i++) {
+            if (!productsName[i].equals("")) System.out.println((i + 1) + ": " + productsName[i] + "\nPreço unitário: R$" + productsPrice[i] + " | Quantidade: " + productsQuantity[i] + "\n");
         }
         do {
             System.out.println("========================\n[0 voltar ao menu | 1 excluir produto]\nOpção: ");
@@ -160,10 +154,10 @@ public class SistemaConsole {
         int count = 0, option, newQuantity;
         String newProduct;
         double newPrice;
-        for (int i = 0; i < products.length; i++) {
-            if (!products[i].name.equals("")) count++;
+        for (int i = 0; i < productsName.length; i++) {
+            if (!productsName[i].equals("")) count++;
         }
-        if (count == products.length) {
+        if (count == productsName.length) {
             System.out.println("Lista de produtos lotada! Deseja excluir algum produto? \n[0 sim, excluir | 1 não, voltar ao menu]\nOpção: ");
             option = scan.nextInt();
             if (option == 0) deleteProduct();
@@ -173,11 +167,11 @@ public class SistemaConsole {
         newProduct = scan.next();
         newPrice = scan.nextDouble();
         newQuantity = scan.nextInt();
-        for (int i = 0; i < products.length; i++) {
-            if (products[i].name.equals("")) {
-                products[i].name = newProduct;
-                products[i].price = newPrice;
-                products[i].quantity = newQuantity;
+        for (int i = 0; i < productsName.length; i++) {
+            if (productsName[i].equals("")) {
+                productsName[i] = newProduct;
+                productsPrice[i] = newPrice;
+                productsQuantity[i] = newQuantity;
                 System.out.println("Produto cadastrado!");
                 menu();
             }
@@ -210,24 +204,24 @@ public class SistemaConsole {
     public static void deleteProduct() {
         int option;
         System.out.println("");
-        for (int i = 0; i < products.length; i++) {
-            if (!products[i].name.equals("")) System.out.println((i + 1) + ": " + products[i].name);
+        for (int i = 0; i < productsName.length; i++) {
+            if (!productsName[i].equals("")) System.out.println((i + 1) + ": " + productsName[i]);
         }
         do {
             System.out.println("Informe o ID do produto que deseja excluir [0 para voltar ao menu]\nOpção: ");
             option = scan.nextInt();
             if (option == 0) menu();
             option--;
-            if (products[option].name.equals("")) {
+            if (productsName[option].equals("")) {
                 System.out.println("Esse ID ainda não pertence a nenhum produto!");
                 option = -1;
             }
-        } while (option < 0 || option > products.length);
+        } while (option < 0 || option > productsName.length);
         if (option == 0) menu();
-        for (int i = 0; i < products.length; i++) {
+        for (int i = 0; i < productsName.length; i++) {
             if (i == (option)) {
-                products[i].name = "";
-                products[i].price = products[i].quantity = 0;
+                productsName[i] = "";
+                productsPrice[i] = productsQuantity[i] = 0;
             }
         }
         menu();
@@ -237,18 +231,18 @@ public class SistemaConsole {
         int optionProduct, optionClient, optionQuantity, optionConfirm;
         double optionPrice;
         System.out.println("Produtos: ");
-        for (int i = 0; i < products.length; i++) {
-            if (!products[i].name.equals("")) System.out.println((i + 1) + ": " + products[i].name);
+        for (int i = 0; i < productsName.length; i++) {
+            if (!productsName[i].equals("")) System.out.println((i + 1) + ": " + productsName[i]);
         }
         System.out.println("====================\nInforme o ID do produto a ser vendido: ");
         do {
             optionProduct = scan.nextInt();
             optionProduct--;
-            if (products[optionProduct].name.equals("")) {
+            if (productsName[optionProduct].equals("")) {
                 System.out.println("O ID informado não pertence a nenhum produto cadastrado!");
                 optionProduct = -1;
             }
-        } while (optionProduct < 0 || optionProduct > products.length);
+        } while (optionProduct < 0 || optionProduct > clients.length);
         System.out.println("Clientes: ");
         for (int i = 0; i < clients.length; i++) {
             if (!clients[i].equals("")) System.out.println((i + 1) + ": " + clients[i]); 
@@ -261,22 +255,22 @@ public class SistemaConsole {
                 System.out.println("O ID informado não pertence a nenhum cliente cadastrado!");
                 optionClient = -1;
             }
-        } while (optionClient < 0 || optionClient > products.length);
-        System.out.println("Produto selecionado: " + products[optionProduct].name + "\nPreço: R$" + products[optionProduct].price + "\nQuantidade: " + products[optionProduct].quantity);
+        } while (optionClient < 0 || optionClient > productsName.length);
+        System.out.println("Produto selecionado: " + productsName[optionProduct] + "\nPreço: R$" + productsPrice[optionProduct] + "\nQuantidade: " + productsQuantity[optionProduct]);
         System.out.println("Informe a quantidade que será vendida: ");
         optionQuantity = scan.nextInt();
-        while (optionQuantity < 1 || optionQuantity > products[optionProduct].quantity) {
-            System.out.println("Quantidade inválida! Informe uma quantidade entre 1 e " + products[optionProduct].quantity);
+        while (optionQuantity < 1 || optionQuantity > productsQuantity[optionProduct]) {
+            System.out.println("Quantidade inválida! Informe uma quantidade entre 1 e " + productsQuantity[optionProduct]);
             optionQuantity = scan.nextInt();
         }
-        optionPrice = products[optionProduct].price * optionQuantity;
-        System.out.println("\nNota Fiscal\nProduto: " + products[optionProduct].name + "\nPreço unitário: R$" + products[optionProduct].price + "\nQuantidade: " + optionQuantity + " | Valor total: R$" + optionPrice);
+        optionPrice = productsPrice[optionProduct] * optionQuantity;
+        System.out.println("\nNota Fiscal\nProduto: " + productsName[optionProduct] + "\nPreço unitário: R$" + productsPrice[optionProduct] + "\nQuantidade: " + optionQuantity + " | Valor total: R$" + optionPrice);
         System.out.println("\nDeseja confirmar a venda? [0 sim, confirmar | 1 não, cancelar]\nOpção: ");
         do optionConfirm = scan.nextInt();
         while (optionConfirm < 0 || optionConfirm > 1);
         if (optionConfirm == 1) menu();
         if (optionConfirm == 0) {
-            products[optionProduct].quantity -= optionQuantity;
+            productsQuantity[optionProduct] -= optionQuantity;
             moneyInCashier += optionPrice;
             System.out.println("Venda realizada com sucesso!");
         }
@@ -291,22 +285,22 @@ public class SistemaConsole {
         int optionProduct, optionQuantity, confirmPurchase = 0;
         double optionPrice;
         System.out.println("Produtos: ");
-        for (int i = 0; i < products.length; i++) {
-            if (!products[i].name.equals("")) System.out.println((i + 1) + ": " + products[i].name);
+        for (int i = 0; i < productsName.length; i++) {
+            if (!productsName[i].equals("")) System.out.println((i + 1) + ": " + productsName[i]);
         }
         System.out.println("====================\nInforme o ID do produto a ser comprado: ");
         do {
             optionProduct = scan.nextInt();
             optionProduct--;
-            if (products[optionProduct].name.equals("")) {
+            if (productsName[optionProduct].equals("")) {
                 System.out.println("O ID informado não pertence a nenhum produto cadastrado!");
                 optionProduct = -1;
             }
-        } while (optionProduct < 0 || optionProduct > products.length);
+        } while (optionProduct < 0 || optionProduct > productsName.length);
         do {
             System.out.println("Informe a quantidade de produtos que deseja adquirir: ");
             optionQuantity = scan.nextInt();
-            optionPrice = optionQuantity * products[optionProduct].price;
+            optionPrice = optionQuantity * productsPrice[optionProduct];
             if (optionPrice > moneyInCashier) {
                 System.out.println("O dinheiro em caixa é insuficiente! [0 alterar quantidade | 1 cancelar compra]\nOpção: ");
                 do confirmPurchase = scan.nextInt();
@@ -314,13 +308,13 @@ public class SistemaConsole {
                 if (confirmPurchase == 1) menu();
             } else confirmPurchase = 1;
         } while (confirmPurchase == 0);
-        System.out.println("\nNota Fiscal\nProduto: " + products[optionProduct].name + "\nPreço unitário: R$" + products[optionProduct].price + "\nQuantidade: " + optionQuantity + " | Valor total: R$" + optionPrice);
+        System.out.println("\nNota Fiscal\nProduto: " + productsName[optionProduct] + "\nPreço unitário: R$" + productsPrice[optionProduct] + "\nQuantidade: " + optionQuantity + " | Valor total: R$" + optionPrice);
         System.out.println("\nDeseja confirmar a compra? [0 sim, confirmar | 1 não, cancelar]\nOpção: ");
         do confirmPurchase = scan.nextInt();
         while (confirmPurchase < 0 || confirmPurchase > 1);
         if (confirmPurchase == 1) menu();
         if (confirmPurchase == 0) {
-            products[optionProduct].quantity += optionQuantity;
+            productsQuantity[optionProduct] += optionQuantity;
             moneyInCashier -= optionPrice;
             System.out.println("Compra realizada com sucesso!");
         }
@@ -341,7 +335,7 @@ public class SistemaConsole {
             if (userAttempt.equals("admin") && passAttempt.equals("123")) break;
             else System.out.println("Usuário ou senha incorretos!");
         } while (true);
-        clearConsole();
+        // clearConsole();
         loadDefaultProductsAndClients();
     }
 
