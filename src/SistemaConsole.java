@@ -24,6 +24,10 @@ public class SistemaConsole {
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+        loadDefaultProductsAndClients();
+    }
+
+    public static void loadDefaultProductsAndClients() {
         for (int i = 0; i < products.length; i++) {
             products[i] = new Product();
             products[i].name = "";
