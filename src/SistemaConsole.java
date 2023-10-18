@@ -48,7 +48,7 @@ public class SistemaConsole {
         products[2].quantity = 20;
         products[3].quantity = 12;
         products[4].quantity = 5;
-        login(); //alterar para login() após os testes
+        login();
     }
 
     public static void menu() {
@@ -334,7 +334,7 @@ public class SistemaConsole {
             String userAttempt = scan.next();
             System.out.println("Infome a senha: ");
             String passAttempt = scan.next();
-            if (userAttempt.equals("admin") && passAttempt.equals("1214")) break;
+            if (userAttempt.equals("admin") && passAttempt.equals("123")) break;
             else System.out.println("Usuário ou senha incorretos!");
         } while (true);
         clearConsole();
@@ -342,7 +342,6 @@ public class SistemaConsole {
     }
 
     public static void clearConsole() {
-        // System.out.println("\033[H\033[2J");
         try {
             final String os = System.getProperty("os.name");
 
