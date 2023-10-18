@@ -24,7 +24,7 @@ public class SistemaConsole {
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        loadDefaultProductsAndClients();
+        login();
     }
 
     public static void loadDefaultProductsAndClients() {
@@ -52,7 +52,7 @@ public class SistemaConsole {
         products[2].quantity = 20;
         products[3].quantity = 12;
         products[4].quantity = 5;
-        login();
+        menu();
     }
 
     public static void menu() {
@@ -342,7 +342,7 @@ public class SistemaConsole {
             else System.out.println("Usuário ou senha incorretos!");
         } while (true);
         clearConsole();
-        menu();
+        loadDefaultProductsAndClients();
     }
 
     public static void clearConsole() {
