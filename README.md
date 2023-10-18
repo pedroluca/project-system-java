@@ -1,6 +1,6 @@
 ## Sistema de supermercado em Java
 
-Bem-vindo(a) ao meu sistema em Java, feito como trabalho da disciplina de Linguagem de Programação Orientada a Objetos, apesar de não terem sido utilizados opbjetos aqui, pois ainda estamos sendo introduzidos à essa linguagem.
+Bem-vindo(a) ao meu sistema em Java, feito como trabalho da disciplina de Linguagem de Programação Orientada a Objetos, apesar de não terem sido utilizados objetos aqui, pois ainda estamos sendo introduzidos à essa linguagem.
 
 O objetivo do trabalho é refazer um sistema enviado pelo professor (em linguagem C) utilizando Java.
 
