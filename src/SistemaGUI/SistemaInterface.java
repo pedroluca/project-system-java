@@ -6,6 +6,7 @@
 * e-mail: pedrolucaofc@outlook.com
 * site: https://pedroluca.vercel.app
 */
+package SistemaGUI;
 
 import javax.swing.*;
 
