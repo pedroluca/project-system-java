@@ -20,8 +20,8 @@ public class SistemaConsole {
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        // login();
-        loadDefaultProductsAndClients();
+        login();
+        // loadDefaultProductsAndClients();
     }
 
     public static void loadDefaultProductsAndClients() {
@@ -31,15 +31,15 @@ public class SistemaConsole {
         Cliente cliente4 = new Cliente("Tharlis", "123.123.123-12", 18);
         clientes.addAll(Arrays.asList(cliente1, cliente2, cliente3, cliente4));
         LocalDate data1 = LocalDate.of(2024, 5, 20);
-        ProdutoPerecivel produto1 = new ProdutoPerecivel("PP0001", "Feijão", 5.7, 7, data1);
+        ProdutoPerecivel produto1 = new ProdutoPerecivel("0001", "Feijão", 5.7, 7, data1);
         LocalDate data2 = LocalDate.of(2024, 5, 20);
-        ProdutoPerecivel produto2 = new ProdutoPerecivel("PP0002", "Arroz", 3.4, 8, data2);
+        ProdutoPerecivel produto2 = new ProdutoPerecivel("0002", "Arroz", 3.4, 8, data2);
         LocalDate data3 = LocalDate.of(2024, 5, 20);
-        ProdutoPerecivel produto3 = new ProdutoPerecivel("PP0003", "Macarrão", 7.34, 20, data3);
+        ProdutoPerecivel produto3 = new ProdutoPerecivel("0003", "Macarrão", 7.34, 20, data3);
         LocalDate data4 = LocalDate.of(2024, 5, 20);
-        ProdutoPerecivel produto4 = new ProdutoPerecivel("PP0004", "Tapioca", 15.99, 12, data4);
+        ProdutoPerecivel produto4 = new ProdutoPerecivel("0004", "Tapioca", 15.99, 12, data4);
         LocalDate data5 = LocalDate.of(2024, 5, 20);
-        ProdutoPerecivel produto5 = new ProdutoPerecivel("PP0005", "Banana", 7.89, 5, data5);
+        ProdutoPerecivel produto5 = new ProdutoPerecivel("0005", "Banana", 7.89, 5, data5);
         produtos.addAll(Arrays.asList(produto1, produto2, produto3, produto4, produto5));
         menu();
     }
@@ -54,8 +54,9 @@ public class SistemaConsole {
         System.out.println(" || 5- Mostrar dinheiro em caixa     ||");
         System.out.println(" || 6- Vender produtos               ||");
         System.out.println(" || 7- Comprar produtos              ||");
-        System.out.println(" || 8- Limpar tela                   ||");
-        System.out.println(" || 9- Sair                          ||");
+        System.out.println(" || 8- Ver históricos                ||");
+        System.out.println(" || 9- Limpar tela                   ||");
+        System.out.println(" || 0- Sair                          ||");
         System.out.println("<== = = = = = = = = = = = = = = = = ===>");
         while (option < 1 || option > 9) {
             System.out.println("Informe a opção desejada: ");
@@ -86,9 +87,11 @@ public class SistemaConsole {
                 buyProducts();
                 break;
             case 8:
+                verHistoricos();
+            case 9:
                 clearConsole();
                 break;
-            case 9:
+            case 0:
                 System.exit(0);
                 break;
         }
@@ -120,9 +123,9 @@ public class SistemaConsole {
 
     public static void addNewCustomer() {
         System.out.print("\nInforme o nome do novo cliente: ");
-        String nomeCliente = scan.next();
+        String nomeCliente = scan.nextLine();
         System.out.print("Informe o CPF do novo cliente: ");
-        String cpfCliente = scan.next();
+        String cpfCliente = scan.nextLine();
         System.out.println("Informe a idade do novo cliente: ");
         int idadeCliente = scan.nextInt();
         scan.nextLine();
@@ -135,16 +138,19 @@ public class SistemaConsole {
         System.out.println("O novo produto é perecível ou não? [0- sim | 1- não]: ");
         int option = scan.nextInt();
         scan.nextLine();
-        System.out.print("\nInforme o código, nome, preço e a quantidade do novo produto (respectivamente): ");
-        String codigoProduto = scan.next();
-        String nomeProduto = scan.next();
+        System.out.print("\nInforme o código do novo produto: ");
+        String codigoProduto = scan.nextLine();
+        System.out.print("\nInforme o nome do novo produto: ");
+        String nomeProduto = scan.nextLine();
+        System.out.print("\nInforme o preço do novo produto: ");
         double precoProduto = scan.nextDouble();
         scan.nextLine();
+        System.out.print("\nInforme a quantidade do novo produto: ");
         int quantidadeProduto = scan.nextInt();
         scan.nextLine();
         if (option == 0) {
-            System.out.println("Informe a data de vencimento do produto: ");
-            String dataVencimentoProduto = scan.next();
+            System.out.println("\nInforme a data de vencimento do produto (no formato dd/mm/yyyy): ");
+            String dataVencimentoProduto = scan.nextLine();
             try {
                 LocalDate dataVencimento = converterDataBrasileiraParaLocalDate(dataVencimentoProduto);
                 ProdutoPerecivel novoProduto = new ProdutoPerecivel(codigoProduto, nomeProduto, precoProduto, quantidadeProduto, dataVencimento);
@@ -156,8 +162,8 @@ public class SistemaConsole {
                 addNewProduct();
             }
         } else if (option == 1) {
-            System.out.println("Informe o material do produto: ");
-            String materialProduto = scan.next();
+            System.out.println("\nInforme o material do produto: ");
+            String materialProduto = scan.nextLine();
             ProdutoNaoPerecivel novoProduto = new ProdutoNaoPerecivel(codigoProduto, nomeProduto, precoProduto, quantidadeProduto, materialProduto);
             produtos.add(novoProduto);
             System.out.println("Produto adicionado com sucesso!");
@@ -174,7 +180,7 @@ public class SistemaConsole {
         System.out.println("");
         System.out.println(imprimirClientes());
         System.out.println("Informe o CPF do cliente que deseja excluir [0 para voltar ao menu]: ");
-        String option = scan.next();
+        String option = scan.nextLine();
         if (option.equals("0")) menu();
         Cliente clienteParaDeletar = encontrarClientePorCPF(option);
         if (clienteParaDeletar != null) {
@@ -204,7 +210,7 @@ public class SistemaConsole {
         System.out.println("");
         System.out.println(imprimirProdutos());
         System.out.println("Informe o código do produto que deseja excluir [0 para voltar ao menu]: ");
-        String option = scan.next();
+        String option = scan.nextLine();
         if (option.equals("0")) menu();
         Produto produtoParaDeletar = encontrarProdutoPorCodigo(option);
         if (produtoParaDeletar != null) {
@@ -220,7 +226,7 @@ public class SistemaConsole {
         Cliente clienteComprador;
         String cpfCliente;
         System.out.println(imprimirClientes());
-        System.out.println("Informe o CPF do cliente que está comprando: ");
+        System.out.println("=> Informe o CPF do cliente que está comprando: ");
         do {
             cpfCliente = scan.nextLine();
             clienteComprador = encontrarClientePorCPF(cpfCliente);
@@ -236,7 +242,7 @@ public class SistemaConsole {
             String codigoProduto;
         System.out.println(imprimirProdutos());
             System.out.println("\n=> Informe o código do produto a ser vendido: ");
-            codigoProduto = scan.next();
+            codigoProduto = scan.nextLine();
             produtoParaVender = encontrarProdutoPorCodigo(codigoProduto);
             if (produtoParaVender == null) System.out.println("O código informado não pertence a nenhum produto cadastrado!");
             else {
@@ -258,7 +264,7 @@ public class SistemaConsole {
         } while (true);
         
         novaVenda.setValorTotal();
-        novaVenda.obterReciboFormatado();
+        System.out.println(novaVenda.obterReciboFormatado());
         System.out.println("Deseja confirmar essa venda? [0- sim, confirmar | 1- não, cancelar venda]");
         do {
             optionConfirm = scan.nextInt();
@@ -277,6 +283,7 @@ public class SistemaConsole {
             produtoVendido.reduzirQuantidadePosVenda(produtoVenda.getQuantidade());
         }
         caixa.realizarVenda(vendaParaConfirmar.getValorTotal());
+        caixa.setNovaVendaParaHistorico(vendaParaConfirmar);
         System.out.println("Venda realizada com sucesso!");
         System.out.println("Deseja realizar outra venda? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
         int optionConfirm;
@@ -294,6 +301,7 @@ public class SistemaConsole {
             produtoVendido.reduzirQuantidadePosVenda(produtoVenda.getQuantidade());
         }
         caixa.realizarCompra(compraParaConfirmar.getValorTotal());
+        caixa.setNovaCompraParaHistorico(compraParaConfirmar);
         System.out.println("Compra realizada com sucesso!");
         System.out.println("Deseja realizar outra compra? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
         int optionConfirm;
@@ -334,7 +342,7 @@ public class SistemaConsole {
             String codigoProduto;
             System.out.println(imprimirProdutos());
             System.out.println("\n=> Informe o código do produto a ser adquirido: ");
-            codigoProduto = scan.next();
+            codigoProduto = scan.nextLine();
             produtoParaComprar = encontrarProdutoPorCodigo(codigoProduto);
             if (produtoParaComprar == null) System.out.println("O código informado não pertence a nenhum produto cadastrado!");
             else {
@@ -346,7 +354,7 @@ public class SistemaConsole {
                     optionQuantity = scan.nextInt();
                 }
                 novaCompra.setProduto(produtoParaComprar, optionQuantity);
-                System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar venda]: ");
+                System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar compra]: ");
                 do {
                     optionConfirm = scan.nextInt();
                     scan.nextLine();
@@ -356,7 +364,7 @@ public class SistemaConsole {
         } while (true);
         
         novaCompra.setValorTotal();
-        novaCompra.obterReciboFormatado();
+        System.out.println(novaCompra.obterReciboFormatado());
         System.out.println("Deseja confirmar essa compra? [0- sim, confirmar | 1- não, cancelar compra]");
         do {
             optionConfirm = scan.nextInt();
@@ -373,14 +381,35 @@ public class SistemaConsole {
         System.out.println("<== = = = = LOGIN = = = = ==>");
         do {
             System.out.println("Informe o usuário: ");
-            String userAttempt = scan.next();
+            String userAttempt = scan.nextLine();
             System.out.println("Infome a senha: ");
-            String passAttempt = scan.next();
+            String passAttempt = scan.nextLine();
             if (userAttempt.equals("admin") && passAttempt.equals("123")) break;
             else System.out.println("Usuário ou senha incorretos!");
         } while (true);
         clearConsole();
-        loadDefaultProductsAndClients();
+    }
+
+    public static void verHistoricos() {
+        int option;
+        System.out.println("<<= = = = = = = = HISTÓRICOS = = = = = = = ==>");
+        System.out.println(" || 1- Histórico de vendas                  ||");
+        System.out.println(" || 2- Histórico de compras                 ||");
+        System.out.println("<<= = = = = = = = = = = = = = = = = = = = ===>");
+        System.out.println("Informe a opção desejada: ");
+        option = scan.nextInt();
+        switch (option) {
+            case 1:
+                System.out.println(caixa.getHistoricoDeVendas().toString());
+                break;
+            case 2:
+                System.out.println(caixa.getHistoricoDeCompras().toString());
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                verHistoricos();
+        }
+        menu();
     }
 
     public static void clearConsole() {
@@ -399,6 +428,6 @@ public class SistemaConsole {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        menu();
+        loadDefaultProductsAndClients();
     }
 }

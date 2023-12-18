@@ -45,7 +45,8 @@ public abstract class Transacao {
   }
 
   public String gerarCodigo() {
-    return "T" + contadorTransacao++;
+    String dataTransacaoParaCodigo = dataDaTransacao.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
+    return "T" + dataTransacaoParaCodigo + contadorTransacao++;
   }
 
   public void setCodigo(String codigo) {
