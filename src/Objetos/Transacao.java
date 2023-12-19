@@ -8,6 +8,7 @@ public abstract class Transacao {
   private ArrayList<ItemTransacao> listaDeProdutos;
   private double valorTotal;
   private LocalDate dataDaTransacao;
+  private int codigoDoBD;
 
   public Transacao() {
     setDataDaTransacao(LocalDate.now());
@@ -44,6 +45,14 @@ public abstract class Transacao {
 
   public ArrayList<ItemTransacao> getListaDeProdutos() {
     return listaDeProdutos;
+  }
+
+  public void setCodigoBD(int codigo) {
+    this.codigoDoBD = codigo;
+  }
+
+  public int getCodigoBD() {
+    return codigoDoBD;
   }
 
   public String obterReciboFormatado() {

@@ -72,6 +72,7 @@ public class SistemaConsole {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         try (ResultSet saldoCaixa = database.executeSelectQuery("SELECT * FROM Caixa")) {
             while (saldoCaixa.next()) {
                 caixa.setSaldo(saldoCaixa.getDouble("saldo"));
@@ -84,31 +85,46 @@ public class SistemaConsole {
         caixa.getHistoricoDeVendas().getListaDeTransacoes().clear();
         try (ResultSet historicoRetornado = database.executeSelectQuery("SELECT * FROM Transacao")) {
             while (historicoRetornado.next()) {
-                boolean isVenda = historicoRetornado.getBoolean("isVenda");
-                if (isVenda) {
+                int isVenda = historicoRetornado.getInt("isVenda");
+                if (isVenda == 1) {
                     Venda vendaHistorico = new Venda(encontrarClientePorCPF(historicoRetornado.getString("cpf_cliente")));
                     vendaHistorico.setDataDaTransacao(converterDataStringParaLocalDate(historicoRetornado.getString("data_transacao")));
-                    ResultSet itensVenda = database.executeSelectQuery("SELECT * FROM Item_Transacao WHERE codigo_transacao = " + historicoRetornado.getInt("codigo"));
-                    while (itensVenda.next()) {
-                        Produto produtoVenda = encontrarProdutoPorCodigo(itensVenda.getString("codigo_produto"));
-                        vendaHistorico.setProduto(produtoVenda, itensVenda.getInt("quantidade_produto"));
-                    }
-                    vendaHistorico.setValorTotal();
+                    vendaHistorico.setCodigoBD(historicoRetornado.getInt("codigo"));
                     caixa.setNovaVendaParaHistorico(vendaHistorico);
                 } else {
                     Compra compraHistorico = new Compra();
                     compraHistorico.setDataDaTransacao(converterDataStringParaLocalDate(historicoRetornado.getString("data_transacao")));
-                    ResultSet itensCompra = database.executeSelectQuery("SELECT * FROM Item_Transacao WHERE codigo_transacao = " + historicoRetornado.getInt("codigo"));
-                    while (itensCompra.next()) {
-                        Produto produtoCompra = encontrarProdutoPorCodigo(itensCompra.getString("codigo_produto"));
-                        compraHistorico.setProduto(produtoCompra, itensCompra.getInt("quantidade_produto"));
-                    }
+                    compraHistorico.setCodigoBD(historicoRetornado.getInt("codigo"));
                     compraHistorico.setValorTotal();
                     caixa.setNovaCompraParaHistorico(compraHistorico);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        for (Transacao transacao : caixa.getHistoricoDeVendas().getListaDeTransacoes()) {
+            try (ResultSet itensVenda = database.executeSelectQuery("SELECT * FROM Item_Transacao WHERE codigo_transacao = " + transacao.getCodigoBD())) {
+                while (itensVenda.next()) {
+                    Produto produtoVenda = encontrarProdutoPorCodigo(itensVenda.getString("codigo_produto"));
+                    transacao.setProduto(produtoVenda, itensVenda.getInt("quantidade_produto"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            transacao.setValorTotal();
+        }
+
+        for (Transacao transacao : caixa.getHistoricoDeCompras().getListaDeTransacoes()) {
+            try (ResultSet itensCompra = database.executeSelectQuery("SELECT * FROM Item_Transacao WHERE codigo_transacao = " + transacao.getCodigoBD())) {
+                while (itensCompra.next()) {
+                    Produto produtoCompra = encontrarProdutoPorCodigo(itensCompra.getString("codigo_produto"));
+                    transacao.setProduto(produtoCompra, itensCompra.getInt("quantidade_produto"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            transacao.setValorTotal();
         }
         
         database.closeDatabase();
@@ -330,9 +346,9 @@ public class SistemaConsole {
     public static void addNovoCliente() {
         System.out.print("\nInforme o nome do novo cliente: ");
         String nomeCliente = scan.nextLine();
-        System.out.print("Informe o CPF do novo cliente: ");
         String cpfCliente = "";
         do {
+            System.out.print("Informe o CPF do novo cliente: ");
             cpfCliente = scan.next();
             scan.nextLine();
         } while (cpfCliente.length() != 11);
@@ -455,16 +471,16 @@ public class SistemaConsole {
 
     public static void sellProducts() {
         Cliente clienteComprador;
-        String cpfCliente;
         System.out.println(imprimirClientes());
-        System.out.println("=> Informe o CPF do cliente que está comprando: ");
         do {
-            cpfCliente = scan.nextLine();
+            System.out.println("=> Informe o CPF do cliente que está comprando: ");
+            String cpfCliente = scan.next();
+            scan.nextLine();
             clienteComprador = encontrarClientePorCPF(cpfCliente);
-            if (clienteComprador == null) System.out.println("O CPF informado não pertence a nenhum cliente cadastrado!");
+            if (encontrarClientePorCPF(cpfCliente) == null) System.out.println("O CPF informado não pertence a nenhum cliente cadastrado!");
             else break;
-        } while (true);
-    
+        } while (true);     
+        
         Venda novaVenda = new Venda(clienteComprador);
         int optionConfirm = 0;
 
