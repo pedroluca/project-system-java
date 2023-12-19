@@ -49,6 +49,10 @@ public abstract class Produto {
     this.quantidade -= quantidadeVendida;
   }
 
+  public void aumentarQuantidadePosCompra(int quantidadeComprada) {
+    this.quantidade += quantidadeComprada;
+  }
+
   public String toString() {
     return "Código: " + getCodigo() + " Nome: " + getNome() + " Preço: R$" + getPreco() + " Quantidade: " + getQuantidade();
   }

@@ -1,6 +1,7 @@
 package Objetos;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ProdutoPerecivel extends Produto {
   private LocalDate dataVencimento;
@@ -20,6 +21,8 @@ public class ProdutoPerecivel extends Produto {
 
   @Override
   public String toString() {
-    return super.toString() + " Data de validade: " + getDataVencimento();
+      DateTimeFormatter formatoBrasileiro = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      String dataFormatada = getDataVencimento().format(formatoBrasileiro);
+      return super.toString() + " Data de validade: " + dataFormatada;
   }
 }

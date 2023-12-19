@@ -5,13 +5,7 @@ public class Venda extends Transacao {
 
   public Venda(Cliente cliente) {
     super();
-    setCodigo(this.gerarCodigo());
     setClienteComprador(cliente);
-  }
-
-  @Override
-  public String gerarCodigo() {
-    return "V" + super.gerarCodigo();
   }
 
   public void setClienteComprador(Cliente cliente) {
@@ -25,8 +19,7 @@ public class Venda extends Transacao {
   @Override
   public String obterReciboFormatado() {
     StringBuilder sbVenda = new StringBuilder();
-    sbVenda.append("Recibo\n");
-    sbVenda.append("Código da Venda: ").append(this.getCodigo()).append("\n");
+    sbVenda.append("Recibo da Venda\n");
     sbVenda.append("Data de Emissão: ").append(this.getDataDaTransacao()).append("\n");
     sbVenda.append("Cliente: ").append(this.getClienteComprador().getNome()).append("\n");
     return sbVenda.toString() + super.obterReciboFormatado();

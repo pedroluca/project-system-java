@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class Transacao {
-  private int contadorTransacao = 0;
-  private String codigo;
   private ArrayList<ItemTransacao> listaDeProdutos;
   private double valorTotal;
   private LocalDate dataDaTransacao;
@@ -18,6 +16,10 @@ public abstract class Transacao {
 
   public void setDataDaTransacao(LocalDate data) {
     this.dataDaTransacao = data;
+  }
+
+  public LocalDate getDataTransacaoSemFormatar() {
+    return dataDaTransacao;
   }
 
   public String getDataDaTransacao() {
@@ -42,19 +44,6 @@ public abstract class Transacao {
 
   public ArrayList<ItemTransacao> getListaDeProdutos() {
     return listaDeProdutos;
-  }
-
-  public String gerarCodigo() {
-    String dataTransacaoParaCodigo = dataDaTransacao.format(DateTimeFormatter.ofPattern("ddMMyyyy"));
-    return "T" + dataTransacaoParaCodigo + contadorTransacao++;
-  }
-
-  public void setCodigo(String codigo) {
-    this.codigo = codigo;
-  }
-
-  public String getCodigo() {
-    return codigo;
   }
 
   public String obterReciboFormatado() {
