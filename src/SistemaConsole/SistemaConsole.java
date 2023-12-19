@@ -132,7 +132,7 @@ public class SistemaConsole {
     }
 
     public static void menu() {
-        int option = 0;
+        int option;
         System.out.println("<<= = = = = = = = MENU = = = = = = = ==>");
         System.out.println(" || 1- Ver produtos                  ||");
         System.out.println(" || 2- Ver clientes                  ||");
@@ -143,11 +143,11 @@ public class SistemaConsole {
         System.out.println(" || 7- Limpar tela                   ||");
         System.out.println(" || 8- Sair                          ||");
         System.out.println("<== = = = = = = = = = = = = = = = = ===>");
-        while (option < 1 || option > 8) {
+        do {
             System.out.println("Informe a opção desejada: ");
             option = scan.nextInt();
             if (option < 1 || option > 8) System.out.println("Opção inválida!");
-        }
+        } while (option < 1 || option > 8);
         switch (option) {
             case 1:
                 verProdutos();
@@ -190,9 +190,11 @@ public class SistemaConsole {
         System.out.println("Opção: ");
         option = scan.nextInt();
         if (option == 2 || option == 3) {
-            System.out.println("Informe o codigo do produto: ");
-            codigoProduto = scan.next();
-            scan.nextLine();
+            do {
+                System.out.println("Informe o codigo do produto: ");
+                codigoProduto = scan.next();
+                scan.nextLine();
+            } while (encontrarProdutoPorCodigo(codigoProduto) == null);
         }
         switch (option) {
             case 1:
@@ -227,9 +229,11 @@ public class SistemaConsole {
         System.out.println("Opção: ");
         option = scan.nextInt();
         if (option == 2 || option == 3) {
-            System.out.println("Informe o CPF do cliente: ");
-            cpfCliente = scan.next();
-            scan.nextLine();
+            do {
+                System.out.println("Informe o CPF do cliente: ");
+                cpfCliente = scan.next();
+                scan.nextLine();
+            } while (encontrarClientePorCPF(cpfCliente) == null);
         }
         switch (option) {
             case 1:
@@ -502,8 +506,8 @@ public class SistemaConsole {
                     optionQuantity = scan.nextInt();
                 }
                 novaVenda.setProduto(produtoParaVender, optionQuantity);
-                System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar venda]: ");
                 do {
+                    System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar venda]: ");
                     optionConfirm = scan.nextInt();
                     scan.nextLine();
                 } while (optionConfirm < 0 || optionConfirm > 1);
@@ -513,8 +517,8 @@ public class SistemaConsole {
         
         novaVenda.setValorTotal();
         System.out.println(novaVenda.obterReciboFormatado());
-        System.out.println("Deseja confirmar essa venda? [0- sim, confirmar | 1- não, cancelar venda]");
         do {
+            System.out.println("Deseja confirmar essa venda? [0- sim, confirmar | 1- não, cancelar venda]");
             optionConfirm = scan.nextInt();
             scan.nextLine();
         } while (optionConfirm < 0 || optionConfirm > 1);
@@ -548,9 +552,9 @@ public class SistemaConsole {
         }
         database.closeDatabase();
         System.out.println("Venda realizada com sucesso!");
-        System.out.println("Deseja realizar outra venda? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
         int optionConfirm;
         do {
+            System.out.println("Deseja realizar outra venda? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
             optionConfirm = scan.nextInt();
             scan.nextLine();
         } while (optionConfirm < 0 || optionConfirm > 1);
@@ -581,9 +585,9 @@ public class SistemaConsole {
         }
         database.closeDatabase();
         System.out.println("Compra realizada com sucesso!");
-        System.out.println("Deseja realizar outra compra? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
         int optionConfirm;
         do {
+            System.out.println("Deseja realizar outra compra? [0 sim, desejo | 1 não, voltar ao menu]\nOpção: ");
             optionConfirm = scan.nextInt();
             scan.nextLine();
         } while (optionConfirm < 0 || optionConfirm > 1);
@@ -632,8 +636,8 @@ public class SistemaConsole {
                     optionQuantity = scan.nextInt();
                 }
                 novaCompra.setProduto(produtoParaComprar, optionQuantity);
-                System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar compra]: ");
                 do {
+                    System.out.println("Deseja adicionar outro produto? [0- sim, adicionar outro produto | 1- não, finalizar compra]: ");
                     optionConfirm = scan.nextInt();
                     scan.nextLine();
                 } while (optionConfirm < 0 || optionConfirm > 1);
@@ -643,8 +647,8 @@ public class SistemaConsole {
         
         novaCompra.setValorTotal();
         System.out.println(novaCompra.obterReciboFormatado());
-        System.out.println("Deseja confirmar essa compra? [0- sim, confirmar | 1- não, cancelar compra]");
         do {
+            System.out.println("Deseja confirmar essa compra? [0- sim, confirmar | 1- não, cancelar compra]");
             optionConfirm = scan.nextInt();
             scan.nextLine();
         } while (optionConfirm < 0 || optionConfirm > 1);
