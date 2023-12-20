@@ -1,6 +1,6 @@
 -- Criação do Banco de Dados
 CREATE DATABASE sisteminha_produtos_2;
-USE sisteminha_produtos_2;
+USE sisteminha_produtos_2; -- Dependendo da plataforma não precisa, como por exemplo o Xampp
 
 -- Produto, Cliente, Transacao, Item_Transacao, Caixa, 
 -- Historico talvez não precise, pois a tabela Item_Transacao já faz isso de forma indireta
