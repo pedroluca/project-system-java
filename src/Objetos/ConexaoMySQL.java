@@ -6,7 +6,6 @@ public class ConexaoMySQL {
     private static String URL = "jdbc:mysql://localhost:3307/sisteminha_produtos_2";
     private static String USER = "root";
     private static String PASSWORD = "root";
-
     private Connection dbconn = null;
     private Statement sqlmgr = null;
 
